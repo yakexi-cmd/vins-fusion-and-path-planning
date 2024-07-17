@@ -1,0 +1,21 @@
+<launch>
+    <arg name="scene" default="map1" />
+    <!-- 1.负责查找地图 -->
+    <include file="$(find putn_map)/launch/$(arg scene).launch" />
+    <!-- 2.启动控制器 -->
+    <include file="$(find scout_gazebo_sim)/launch/spawn_scout_v2.launch">
+        <arg name="x" value="0" />
+        <arg name="y" value="0" />
+        <arg name="z" value="1" />
+    </include>
+    <!-- 3.调用激光雷达获得里程计信息，即三维坐标 -->
+    <include file="$(find aloam_velodyne)/launch/aloam_velodyne_HDL_32.launch">
+        <arg name="rviz" value="false" />
+    </include>
+    <!-- 4.进行tf坐标系之间的静态坐标变换 -->
+    <node pkg="tf" type="static_transform_publisher" name="world_to_camera_init" args="0 0 0 0 0 0 /world /camera_init 10" />
+    <node pkg="tf" type="static_transform_publisher" name="camera_to_link" args="0 0 -0.4 0 0 0 /aft_mapped /base_link 10" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find putn_launch)/rviz_config/my_simulation.rviz" required="true" />
+    <node name="controller" pkg="local_planner" type="controller.py" launch-prefix="gnome-terminal -x"/>
+    
+</launch>

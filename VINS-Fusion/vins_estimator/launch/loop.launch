@@ -1,0 +1,8 @@
+<launch>
+    <arg name="config_path" default="$find(vins_estimator)/../config/d435_imu.yaml" />
+    
+    <node name="loop_fusion_node" pkg="loop_fusion"  type="loop_fusion_node" output="screen" >
+        <param name="config_path" type="string" value="$(arg config_path)" />
+    </node>
+
+</launch>

@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/lemontech/imu_ws/src/handsfree_ros_imu/build/devel/setup.sh

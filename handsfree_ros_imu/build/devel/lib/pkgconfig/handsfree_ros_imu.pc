@@ -1,0 +1,8 @@
+prefix=/home/lemontech/imu_ws/src/handsfree_ros_imu/build/devel
+
+Name: handsfree_ros_imu
+Description: Description of handsfree_ros_imu
+Version: 0.1.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

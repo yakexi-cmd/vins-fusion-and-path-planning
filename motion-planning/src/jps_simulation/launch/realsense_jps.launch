@@ -1,0 +1,13 @@
+<launch>
+    <!-- 加载建图的功能包 -->
+    <include file="$(find surfel_fusion)/launch/surfel_fusion.launch">
+    <!-- TODO:这里我把false变为了true -->
+        <!-- <arg name="rviz" value="false" /> -->
+    </include >
+    <node pkg="jps_simulation" type="jps_simulation_node" name="jps_simulation_node" output="screen" />
+    
+    <!-- 进行tf坐标系之间的静态坐标变换 -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="link_to_map" args="0 0 0 0 0 0 /base_link /camera_init 10" /> -->
+   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jps_simulation)/rviz_config/my_rviz.rviz" required="true" />
+ 
+</launch>

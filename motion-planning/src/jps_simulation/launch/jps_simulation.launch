@@ -1,0 +1,25 @@
+<launch>
+    <!-- 首先加载地图 -->
+    <arg name="scene" default="map1" />
+    <include file="$(find putn_map)/launch/$(arg scene).launch" />
+    <!-- 加载机器人模型 -->
+    <include file="$(find scout_gazebo_sim)/launch/spawn_scout_v2.launch">
+        <arg name="x" value="0" />
+        <arg name="y" value="0" />
+        <arg name="z" value="1" />
+    </include>
+    <!-- 加载激光雷达数据   TODO:这里可以改成自己的launch读取激光雷达数据 -->
+    <include file="$(find jps_simulation)/launch/get_laser_map.launch">
+    <!-- TODO:这里我把false变为了true -->
+        <!-- <arg name="rviz" value="false" /> -->
+    </include >
+
+    <!-- 进行tf坐标系之间的静态坐标变换 -->
+    <node pkg="tf" type="static_transform_publisher" name="link_to_map" args="0 0 0 0 0 0 /base_link /camera_init 10" />
+    <!-- <node pkg="tf" type="static_transform_publisher" name="link_to_laser_init" args="0 0 -0.4 0 0 0  /aft_mapped /base_link 10" /> -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="camera_to_link" args="0 0 -0.4 0 0 0 /aft_mapped /base_link 10" /> -->
+    <!-- TODO:这里发布后，小车是一闪一闪的，发布频率应该怎么设置 -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="world_to_base_link" args="0 0 0 0 0 0 /world /base_link 10" /> -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jps_simulation)/rviz_config/my_rviz.rviz" required="true" />
+ 
+</launch>
